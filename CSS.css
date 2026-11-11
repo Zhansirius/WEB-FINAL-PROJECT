@@ -1,0 +1,1026 @@
+/* Task 4: Scroll Progress Bar */
+#scrollProgressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #cc0000, #ff4d4d);
+    width: 0%;
+    z-index: 10000;
+    transition: width 0.1s ease;
+}
+
+.submit-btn:disabled {
+    background-color: #555555;
+    cursor: not-allowed;
+}
+
+.copy-btn {
+    transition: all 0.3s ease;
+}
+.copy-btn.copied {
+    background-color: #28a745 !important;
+    color: white !important;
+    border-color: #28a745 !important;
+}
+
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0b0b0b;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.page-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px; 
+    }
+
+    .cards-section h2,
+    .features-content h2,
+    .team-section h2,
+    .form-container h2 {
+        font-size: 26px; 
+    }
+
+    .para {
+        font-size: 120%; 
+    }
+
+    .features-list li,
+    .team-section p {
+        font-size: 16px; 
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 22px; 
+    }
+
+    .cards-section h2,
+    .features-content h2,
+    .team-section h2,
+    .form-container h2 {
+        font-size: 22px; 
+    }
+
+    .para {
+        font-size: 100%;
+    }
+
+    .features-list li,
+    .team-section p {
+        font-size: 14px;
+    }
+
+    .card p,
+    .form-group label {
+        font-size: 12px; 
+    }
+}
+
+@media (max-width: 992px) {
+    .card {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+    }
+}
+
+.grid-page-body {
+    display: grid;
+    margin: 0;
+    min-height: 100vh;
+    background-color: #0b0b0b;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 70px 1fr auto;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+}
+
+.grid-header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #111111;
+    padding: 0 40px;
+    border-bottom: 1px solid #333;
+}
+
+.grid-sidebar {
+    grid-area: sidebar;
+    background-color: #141414;
+    padding: 25px;
+    border-right: 1px solid #333;
+}
+
+.grid-sidebar h3 {
+    margin-top: 0;
+    color: #cc0000;
+}
+
+.grid-sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-sidebar li {
+    margin-bottom: 12px;
+}
+
+.grid-sidebar a {
+    color: #cccccc;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.grid-sidebar a:hover {
+    color: #ffffff;
+}
+
+.grid-main {
+    grid-area: main;
+    padding: 30px;
+    background-color: #0b0b0b;
+}
+
+.grid-footer {
+    grid-area: footer;
+    background-color: #111111;
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid #333;
+}
+
+.cards-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    color: white;
+    text-align: center;
+}
+
+.cards-section h2 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #111111;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    width: 30%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+.card p {
+    font-size: 14px;
+    color: #cccccc;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(204, 0, 0, 0.3);
+  border-color: #cc0000;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: black;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain; 
+    font-family: 'Oswald', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+h1 {
+    color: white;
+    position: relative;
+    z-index: 1; 
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    z-index: 2;
+    font-family: 'Oswald', sans-serif;
+}
+
+.nav-icon {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.nav-icon img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.nav-icon img:hover {
+    transform: scale(1.05);
+}
+
+.btn-login {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: #1a1a1a;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
+
+.btn-play {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    border: 1px solid #cc0000;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-play:hover {
+    background-color: #cc0000;
+}
+
+footer {
+    color: white;
+    position: relative;
+    z-index: 1;
+    margin-top: auto;
+    padding: 15px;
+    text-align: center;
+    background-color: rgba(38, 38, 38, 0.5);
+}
+
+#main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 400px;
+    background-image: url('assets/Rain.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+#main::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+#main h1 {
+    z-index: 2;
+    color: #ffffff;
+    font-family: sans-serif;
+    margin: 0 0 10px 0;
+}
+
+#main p {
+    color: #ffffff;
+    font-family: sans-serif;
+    margin: 0;
+    max-width: 600px;
+}
+
+.para {
+    color: white;
+    position: relative;
+    z-index: 1; 
+    margin: 0;
+    padding-top: 100px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150%;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    margin-left: 150px;
+    margin-top: 50px;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
+.features-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.features-content {
+    flex: 1;
+    color: #ffffff;
+}
+
+.features-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.features-list {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.features-list li {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: #cccccc;
+}
+
+.features-image {
+    flex: 1;
+}
+
+.features-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    display: block;
+    object-fit: cover;
+}
+
+.team-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.team-section h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.team-section p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #cccccc;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.donate-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+#Donate {
+    border-collapse: collapse;
+    width: max-content;
+    margin: 0;
+}
+
+.side-banner {
+    width: 220px;
+    height: 500px;
+    flex-shrink: 0;
+}
+
+.side-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #333333;
+}
+
+.side-image {
+    width: 700px;
+    height: auto;
+    border: 1px solid white;
+    margin-left: 400px;
+}
+
+th {
+    border: 1px solid white;
+    padding: 12px 24px;
+    text-align: left;
+    color: white;
+}
+
+th a {
+    color: white;
+    text-decoration: none;
+}
+
+.form-container {
+    flex: 1;
+    max-width: 500px;
+    padding: 30px;
+    background-color: #111111;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    color: #ffffff;
+    font-family: sans-serif;
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #cccccc;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    padding: 10px 14px;
+    background-color: #1a1a1a;
+    border: 1px solid #444444;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    border-color: #cc0000;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.radio-label input[type="radio"],
+.radio-tile input[type="radio"] {
+    accent-color: #cc0000;
+    cursor: pointer;
+}
+
+.radio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.radio-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 10px;
+    background-color: #1a1a1a;
+    border: 1px solid #ffffff;
+    border-radius: 4px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    text-align: center;
+}
+
+.radio-tile:hover {
+    background-color: #252525;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #cc0000;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: #aa0000;
+}
+
+.stalcalc-page .calculator-options select {
+    width: 210px;
+    height: 40px;
+    padding: 5px;
+    font-size: 1rem;
+}
+
+.stalcalc-page .calculator-image {
+    width: 450px;
+    flex-shrink: 0;
+}
+
+.stalcalc-page .calculator-image img {
+    width: 100%;
+    height: auto;
+}
+
+.stalcalc-page .characteristics {
+    width: 250px;
+    flex-shrink: 0;
+    color: white;
+}
+
+.stalcalc-page .characteristics h3 {
+    text-align: center;
+}
+
+.stalcalc-page .characteristics ul {
+    padding-left: 30px;
+}
+
+.stalcalc-page .characteristics li {
+    margin-bottom: 12px;
+}
+
+.stalcalc-page p,
+.stalcalc-page h4 {
+    color: white;
+}
+
+.stalcalc-page ol {
+    color: white;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.stalcalc-page .map-section {
+    width: 90%;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.stalcalc-page .game-map {
+    width: 90vw;
+    max-width: 1200px;
+    height: auto;
+    border: 2px solid white;
+    display: block;
+    margin: 20px auto;
+}
+
+.stalcalc-page .map-list {
+    color: white;
+    width: fit-content;
+    margin: 20px auto;
+    line-height: 1.8;
+}
+
+.stalcalc-page .map-table {
+    border-collapse: collapse;
+    margin: 30px auto;
+    color: white;
+}
+
+.stalcalc-page .map-table th,
+.stalcalc-page .map-table td {
+    border: 1px solid white;
+    padding: 12px 20px;
+}
+
+.stalcalc-page .map-table th {
+    background-color: #222222;
+}
+
+.stalcalc-page .team-section {
+    width: 80%;
+    margin: 50px auto;
+    color: white;
+}
+
+.stalcalc-page .team-member {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.stalcalc-page .profile-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+.stalcalc-page .team-member p {
+    max-width: 500px;
+    color: #cccccc;
+}
+
+/* Image Gallery */
+.gallery {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto 60px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border: 2px solid white;
+    box-sizing: border-box;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.gallery-caption {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-height: 70px;
+    padding: 8px 10px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    line-height: 18px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.gallery-item:hover .gallery-caption {
+    opacity: 1;
+}
+
+.custom-nav-link {
+    color: #b0b0b0 !important;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.custom-nav-link:hover,
+.custom-nav-link:focus {
+    color: #ffffff !important;
+}
+
+/* JavaScript Tasks */
+.js-tasks-section {
+    color: white;
+}
+
+#currentDateTime {
+    color: #ff6666;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#changeBackgroundBtn {
+    margin-top: 10px;
+}
+
+/* Tasks 1, 2, 3: Search System */
+.search-section {
+    max-width: 700px;
+    margin: 50px auto 30px;
+    padding: 20px;
+    text-align: center;
+    color: white;
+}
+
+.search-section h2 {
+    color: #cc0000;
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+}
+
+#zoneSearch {
+    width: 100%;
+    padding: 15px;
+    background-color: #111;
+    color: white;
+    border: 2px solid #cc0000;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+}
+
+#zoneSearch:focus {
+    border-color: #ff3333;
+    box-shadow: 0 0 10px rgba(204, 0, 0, 0.5);
+}
+
+#searchSuggestions {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #171717;
+    border: 1px solid #cc0000;
+    border-radius: 0 0 6px 6px;
+    z-index: 100;
+    text-align: left;
+}
+
+.search-suggestion {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    color: white;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+.search-suggestion:hover {
+    background-color: #cc0000;
+}
+
+#searchResults {
+    margin-top: 15px;
+    color: #aaa;
+}
+
+#noResults {
+    color: #ff3333;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.search-highlight {
+    background-color: #cc0000;
+    color: white;
+    padding: 2px 3px;
+    border-radius: 3px;
+}
+
+/* Popup Form Base Styles (Dark Mode) */
+.popup-overlay {
+    background: rgba(0,0,0,0.8);
+}
+.popup-content {
+    background: #111;
+    border: 1px solid #cc0000;
+    color: white;
+}
+.popup-content label {
+    color: #ccc;
+}
+.popup-content input {
+    background: #1a1a1a;
+    border: 1px solid #444;
+    color: white;
+}
+.popup-content .close-btn {
+    color: white;
+}
+.popup-content .error-msg {
+    color: #ff4d4d;
+}
+
+
+/* Light Mode Styles */
+
+/* Light Mode Styles for Weather Widget */
+body.light-mode #weatherWidget {
+    background-color: #f4f4f4 !important;
+    border-color: #cccccc !important;
+    color: #111111 !important;
+}
+
+body.light-mode #weatherWidget p,
+body.light-mode #weatherWidget span {
+    color: #111111 !important;
+}
+
+body.light-mode #weatherWidget h4 {
+    color: #cc0000 !important;
+}
+
+/* Light Mode Styles for Popup */
+body.light-mode .popup-overlay {
+    background: rgba(255,255,255,0.8) !important;
+}
+body.light-mode .popup-content {
+    background-color: #f4f4f4 !important;
+    border-color: #cccccc !important;
+    color: #111111 !important;
+}
+body.light-mode .popup-content h2,
+body.light-mode .popup-content label {
+    color: #333333 !important;
+}
+body.light-mode .popup-content input {
+    background-color: #ffffff !important;
+    border-color: #999999 !important;
+    color: #111111 !important;
+}
+body.light-mode .popup-content .close-btn {
+    color: #111111 !important;
+}
+
+body.light-mode,
+body.light-mode .grid-page-body,
+body.light-mode .grid-main {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #111111 !important;
+}
+
+body.light-mode h1, 
+body.light-mode h2, 
+body.light-mode h3, 
+body.light-mode h4, 
+body.light-mode p, 
+body.light-mode li, 
+body.light-mode .logo,
+body.light-mode .faq-question {
+    color: #111111 !important;
+}
+
+/* Container styling for Light Mode (Navbars, Cards, Sidebars) */
+body.light-mode .navbar,
+body.light-mode .grid-header,
+body.light-mode .grid-footer,
+body.light-mode .grid-sidebar,
+body.light-mode .card,
+body.light-mode .form-container,
+body.light-mode .faq-item,
+body.light-mode #searchSuggestions {
+    background-color: #f4f4f4 !important;
+    border-color: #cccccc !important;
+}
+
+/* Links in Light Mode */
+body.light-mode .custom-nav-link {
+    color: #333333 !important;
+}
+body.light-mode .custom-nav-link:hover {
+    color: #cc0000 !important;
+}
+
+/* Inputs and Radio Tiles in Light Mode */
+body.light-mode .form-group input, 
+body.light-mode .form-group textarea, 
+body.light-mode .radio-tile {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    border-color: #999999 !important;
+}
+body.light-mode .form-group label {
+    color: #333333 !important;
+}
+
+/* Theme Toggle Button Styles */
+.theme-toggle-btn {
+    background: transparent;
+    border: 2px solid #cc0000;
+    color: #cc0000;
+    padding: 5px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+    font-family: 'Oswald', sans-serif;
+    text-transform: uppercase;
+}
+
+.theme-toggle-btn:hover {
+    background: #cc0000;
+    color: white;
+}

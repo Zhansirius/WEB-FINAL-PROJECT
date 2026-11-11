@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stalzone Donate</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+</head>
+<body>
+    <div id="scrollProgressBar"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark px-4" style="background-color: #111111; border-bottom: 1px solid #333;">
+    <div class="container-fluid">
+        <a class="navbar-brand logo m-0" href="index.html">STALZONE</a>
+        
+
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav gap-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link text-uppercase" href="index.html">Main page</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link text-uppercase" href="StalCalc.html">StalCalc</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link text-uppercase" href="InteractiveMap.html">Interactive Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link text-uppercase" href="Navigation.html">Navigation</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom-nav-link text-uppercase" href="#" id="contactUsBtn">Contact Us</a>
+                </li>
+                <li class="nav-item d-flex align-items-center">
+                    <button class="theme-toggle-btn">Light Mode</button>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="d-none d-lg-flex nav-icon">
+            <img data-src="assets/icon.png" alt="Game Icon">
+        </div>
+    </div>
+</nav>
+    <p class="para">Wanna be strongest player amongst your friends or rival fractions? You have two ways to achieve that. Grind or donate!</p>
+    <br><br>
+        <img data-src="assets/money.jpg" alt="Right side image" class="side-image">
+    </div>
+<div class="donate-section">
+    <div class="side-banner">
+        <img data-src="assets/ZIVKAS.jpg" alt="Left Banner">
+    </div>
+
+    <div class="form-container">
+        <h2>DONATE TO PLAYER</h2>
+        <form action="#" method="POST" class="custom-form">
+            <div class="form-group">
+                <label for="nickname">Player Nickname:</label>
+                <input type="text" id="nickname" name="nickname" placeholder="Enter nickname" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Your Email:</label>
+                <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Fraction:</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="fraction" value="rise" checked> Rise
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="fraction" value="frontier"> Frontier
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="fraction" value="mercenaries"> Mercenaries
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="fraction" value="covenant"> Covenant
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Amount:</label>
+                <div class="radio-grid">
+                    <label class="radio-tile">
+                        <input type="radio" name="amount" value="550" checked>
+                        <span>550 SC for 2500KZT</span>
+                    </label>
+                    <label class="radio-tile">
+                        <input type="radio" name="amount" value="1725">
+                        <span>1725 SC for 7500KZT</span>
+                    </label>
+                    <label class="radio-tile">
+                        <input type="radio" name="amount" value="3600">
+                        <span>3600 SC for 15000KZT</span>
+                    </label>
+                    <label class="radio-tile">
+                        <input type="radio" name="amount" value="6500">
+                        <span>6500 SC for 25000KZT</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message you want to share with player:</label>
+                <textarea id="message" name="message" rows="4" placeholder="Write your message..."></textarea>
+            </div>
+            
+
+            <!--Tasks 6 7-->
+            <button type="submit" class="submit-btn" id="donateSubmitBtn">
+                <span class="btn-text">SEND DONATE</span>
+                <span class="spinner" style="display: none;">Please wait...</span>
+            </button>
+
+        </form>
+    </div>
+
+    <div class="side-banner">
+        <img data-src="assets/Cool.jpg" alt="Right Banner">
+    </div>
+</div>
+    <footer>
+
+        <section class="container my-5">
+
+        <p>Team members: Zhansir & Shakhriyar</p>
+    </footer>
+    <!-- Task 3: Popup Subscription/Contact Form -->
+<div id="popupForm" class="popup-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; justify-content: center; align-items: center;">
+    <div class="popup-content" style="padding: 30px; border-radius: 8px; width: 90%; max-width: 400px; position: relative;">
+        <span id="closePopup" class="close-btn" style="position: absolute; top: 10px; right: 15px; cursor: pointer; font-size: 24px; font-weight: bold;">&times;</span>
+        <h2 style="margin-top: 0; text-align: center;">Contact Us</h2>
+        <form id="contactForm">
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="popName" style="display: block; margin-bottom: 5px;">Name:</label>
+                <input type="text" id="popName" required style="width: 100%; padding: 10px; border-radius: 4px;">
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="popEmail" style="display: block; margin-bottom: 5px;">Email:</label>
+                <input type="email" id="popEmail" required style="width: 100%; padding: 10px; border-radius: 4px;">
+                <small id="emailError" class="error-msg" style="display: none; margin-top: 5px;">Invalid email format</small>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px;">
+                <label for="popPassword" style="display: block; margin-bottom: 5px;">Password:</label>
+                <input type="password" id="popPassword" required style="width: 100%; padding: 10px; border-radius: 4px;">
+                <small id="passwordError" class="error-msg" style="display: none; margin-top: 5px;">Password must be at least 6 characters</small>
+            </div>
+            <div class="form-group" style="margin-bottom: 20px;">
+                <label for="popConfirm" style="display: block; margin-bottom: 5px;">Confirm Password:</label>
+                <input type="password" id="popConfirm" required style="width: 100%; padding: 10px; border-radius: 4px;">
+                <small id="confirmError" class="error-msg" style="display: none; margin-top: 5px;">Passwords do not match</small>
+            </div>
+            <button type="submit" class="submit-btn" style="width: 100%; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Submit</button>
+        </form>
+    </div>
+</div>
+<script src="script.js"></script>
+<div id="pageOverlay" class="page-overlay"></div>
+
+<!--Notification task 7-->
+<div id="toastNotification" style="display: none; position: fixed; bottom: 20px; right: 20px; background: #cc0000; color: white; padding: 15px 25px; border-radius: 5px; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-weight: bold;">
+    Executed succefuly!
+</div>
+</body>
+</html>
