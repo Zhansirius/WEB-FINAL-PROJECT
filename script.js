@@ -110,30 +110,6 @@ if (changeBackgroundBtn) {
     });
 }
 
-/* Task 5: Display Current Date and Time */
-const currentDateTime = document.getElementById("currentDateTime");
-
-function updateDateTime() {
-    const now = new Date();
-
-    const formattedDate = new Intl.DateTimeFormat("en-US", {
-        month: "long",
-        day: "numeric",
-        year: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-    }).format(now);
-
-    if (currentDateTime) {
-        currentDateTime.textContent = formattedDate;
-    }
-}
-
-updateDateTime();
-setInterval(updateDateTime, 1000);
-
 /* Page transition animation */
 document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("pageOverlay");
@@ -160,52 +136,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-/* Sound Randomizer */
-const playRandomSoundBtn = document.getElementById("playRandomSoundBtn");
-
-const soundFiles = [
-    "assets/sounds/sound1.mp3",
-    "assets/sounds/sound2.mp3",
-    "assets/sounds/sound3.mp3",
-    "assets/sounds/sound4.mp3",
-    "assets/sounds/sound5.mp3",
-    "assets/sounds/sound6.mp3",
-    "assets/sounds/sound7.mp3"
-];
-
-let currentAudio = null;
-let lastSoundIndex = -1;
-
-if (playRandomSoundBtn) {
-    playRandomSoundBtn.addEventListener("click", function() {
-        if (soundFiles.length === 0) return;
-
-        let randomIndex;
-
-        if (soundFiles.length > 1) {
-            do {
-                randomIndex = Math.floor(Math.random() * soundFiles.length);
-            } while (randomIndex === lastSoundIndex);
-        } else {
-            randomIndex = 0;
-        }
-
-        lastSoundIndex = randomIndex;
-        const selectedSound = soundFiles[randomIndex];
-
-        if (currentAudio) {
-            currentAudio.pause();
-            currentAudio.currentTime = 0;
-        }
-
-        currentAudio = new Audio(selectedSound);
-        currentAudio.volume = 0.5;
-
-        currentAudio.play().catch(error => {
-            console.warn("Audio error:", error);
-        });
-    });
-}
 
 // Assignment 5 | Task 1: Dynamic greeting using switch
 const timeGreeting = document.getElementById("timeGreeting");
@@ -348,45 +278,15 @@ $(document).ready(function() {
         });
     });
 
+   
     // Assignment 6 | Task 1: Real-time Search and Live Filter
+
     let searchInput = $('#zoneSearch');
     let cards = $('.cards-section .card');
 
-    searchInput.on('keyup', function() {
-        let searchText = $(this).val().toLowerCase();
-        let visibleCards = 0;
+    const SEARCH_KEY = 'stalzoneSearchQuery';
 
-        cards.filter(function() {
-            let cardText = $(this).text().toLowerCase();
-            let match = cardText.includes(searchText);
-            let cardColumn = $(this).closest('.col-md-4');
-
-            if (cardColumn.length > 0) {
-                cardColumn.toggleClass('d-none', !match);
-            } else {
-                $(this).toggleClass('d-none', !match);
-            }
-
-            if (match) {
-                visibleCards++;
-            }
-
-            return match;
-        });
-
-        $('#searchResults').text('Found items: ' + visibleCards);
-
-        if (visibleCards === 0) {
-            $('#noResults').show();
-        } else {
-            $('#noResults').hide();
-        }
-
-        showSuggestions(searchText);
-        highlightSearch(searchText);
-    });
-
-    // Assignment 6 | Task 2: Autocomplete Search Suggestions
+     // Assignment 6 | Task 2: Autocomplete Search Suggestions
     let suggestions = [];
 
     cards.each(function() {
@@ -409,6 +309,48 @@ $(document).ready(function() {
             suggestions.push(question);
         }
     });
+
+    function performSearch() {
+        let searchText = searchInput.val().toLowerCase().trim();
+        let visibleCards = 0;
+
+        localStorage.setItem(SEARCH_KEY, searchText);
+
+        cards.each(function() {
+            let cardText = $(this).text().toLowerCase();
+            let match = cardText.includes(searchText);
+
+            $(this).toggleClass('d-none', !match);
+
+            if (match) {
+                visibleCards++;
+            }
+        });
+
+        $('#searchResults').text('Found items: ' + visibleCards);
+
+        if (visibleCards === 0) {
+            $('#noResults').show();
+        } else {
+            $('#noResults').hide();
+        }
+
+        showSuggestions(searchText);
+        highlightSearch(searchText);
+    }
+
+    searchInput.on('input', performSearch);
+
+    // Restore previous search
+    let savedSearch = localStorage.getItem(SEARCH_KEY);
+
+    if (savedSearch !== null && savedSearch !== '') {
+        searchInput.val(savedSearch);
+        performSearch();
+    } else {
+        $('#searchResults').text('Showing all items');
+        $('#noResults').hide();
+    }
 
     function showSuggestions(searchText) {
         let suggestionBox = $('#searchSuggestions');
@@ -442,7 +384,7 @@ $(document).ready(function() {
     $('#searchSuggestions').on('click', '.search-suggestion', function() {
         let selectedText = $(this).text();
         searchInput.val(selectedText);
-        searchInput.trigger('keyup');
+        searchInput.trigger('input');
         $('#searchSuggestions').hide();
     });
 
@@ -530,37 +472,6 @@ $(document).ready(function() {
             highlightTextNodes(this, regex);
         });
     }
-
-    // Assignment 6 | Task 9: Image Lazy Loading
-    function loadImages() {
-        let scrollPosition = $(window).scrollTop();
-        let windowHeight = $(window).height();
-
-        $('img[data-src]').each(function() {
-            let image = $(this);
-            let imagePosition = image.offset().top;
-
-            // Check if image is near the visible area
-            if (imagePosition < scrollPosition + windowHeight + 150) {
-                let imageSource = image.attr('data-src');
-
-                // Load the image
-                image.attr('src', imageSource);
-
-                // Remove data-src after loading
-                image.removeAttr('data-src');
-            }
-        });
-    }
-
-    // Check images when scrolling
-    $(window).on('scroll', function() {
-        loadImages();
-    });
-
-    // Check images when page opens
-    loadImages();
-});
 
 /* Light / Dark Mode Toggle with localStorage */
 document.addEventListener("DOMContentLoaded", () => {

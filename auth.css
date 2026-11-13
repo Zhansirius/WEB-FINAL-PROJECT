@@ -1,0 +1,204 @@
+
+/* STALZONE AUTHENTICATION */
+
+.auth-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.85);
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    padding: 30px;
+    background: #111;
+    color: white;
+    border: 1px solid #cc0000;
+    border-radius: 10px;
+    box-shadow: 0 0 25px rgba(204, 0, 0, 0.3);
+    animation: authAppear 0.3s ease;
+}
+
+@keyframes authAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.auth-box h2 {
+    text-align: center;
+    color: #cc0000;
+    font-family: 'Oswald', sans-serif;
+    margin-bottom: 20px;
+}
+
+.auth-close {
+    position: absolute;
+    top: 8px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.auth-box label {
+    display: block;
+    margin: 12px 0 5px;
+}
+
+.auth-box input {
+    display: block;
+    width: 100%;
+    padding: 11px;
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 5px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.auth-box input:focus {
+    outline: none;
+    border-color: #cc0000;
+}
+
+.auth-message {
+    min-height: 20px;
+    margin: 12px 0 0;
+    font-size: 13px;
+    color: #ff5555;
+}
+
+.auth-submit {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    background: #cc0000;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.auth-submit:hover {
+    background: #ff2222;
+    transform: translateY(-2px);
+}
+
+.auth-switch {
+    margin-top: 20px;
+    text-align: center;
+    color: #aaa;
+}
+
+.auth-switch a {
+    color: #ff4444;
+    text-decoration: none;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* PROFILE */
+
+.profile-page {
+    min-height: 70vh;
+    padding: 40px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #080808;
+    color: white;
+}
+
+.profile-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 35px;
+    text-align: center;
+    background: #151515;
+    border: 1px solid #cc0000;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(204, 0, 0, 0.2);
+}
+
+.profile-avatar {
+    width: 85px;
+    height: 85px;
+    margin: 20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #cc0000;
+    border-radius: 50%;
+    font-size: 38px;
+}
+
+.profile-card h2 {
+    color: #cc0000;
+    font-family: 'Oswald', sans-serif;
+}
+
+.profile-card p {
+    margin: 15px 0;
+    overflow-wrap: anywhere;
+}
+
+.profile-status {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* LIGHT MODE */
+
+body.light-mode .auth-box {
+    background: #f4f4f4;
+    color: #111;
+}
+
+body.light-mode .auth-close {
+    color: #111;
+}
+
+body.light-mode .auth-box input {
+    background: white;
+    color: #111;
+}
+
+body.light-mode .profile-page {
+    background: #fff;
+    color: #111;
+}
+
+body.light-mode .profile-card {
+    background: #f4f4f4;
+    color: #111;
+}
+
+@media (max-width: 576px) {
+    .auth-box {
+        padding: 25px 20px;
+    }
+
+    .profile-card {
+        padding: 25px 18px;
+    }
+}

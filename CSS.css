@@ -103,6 +103,18 @@
     }
 }
 
+@media (max-width: 768px) {
+    .grid-page-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "main"
+            "footer";
+    }
+}
+
 .grid-page-body {
     display: grid;
     margin: 0;
@@ -188,6 +200,7 @@
     letter-spacing: 1px;
 }
 
+
 .cards-container {
     display: flex;
     justify-content: center;
@@ -196,18 +209,38 @@
     flex-wrap: wrap;
 }
 
-.card {
+.cards-section .card {
     background-color: #111111;
     border: 1px solid #333333;
     border-radius: 8px;
-    width: 30%;
+
+    width: calc((100% - 60px) / 3);
+    flex: 0 0 calc((100% - 60px) / 3);
+    box-sizing: border-box;
+
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     text-align: left;
+
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+@media (max-width: 992px) {
+    .cards-section .card {
+        width: calc((100% - 30px) / 2);
+        flex: 0 0 calc((100% - 30px) / 2);
+    }
+}
+
+@media (max-width: 768px) {
+    .cards-section .card {
+        width: 100%;
+        flex: 0 0 100%;
+    }
+}
+
 
 .card img {
     width: 100%;
@@ -788,21 +821,6 @@ th a {
 .custom-nav-link:hover,
 .custom-nav-link:focus {
     color: #ffffff !important;
-}
-
-/* JavaScript Tasks */
-.js-tasks-section {
-    color: white;
-}
-
-#currentDateTime {
-    color: #ff6666;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-#changeBackgroundBtn {
-    margin-top: 10px;
 }
 
 /* Tasks 1, 2, 3: Search System */
