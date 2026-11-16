@@ -1,4 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
+    /* 1. Light / Dark Mode Toggle with localStorage */
+    const toggleBtns = document.querySelectorAll(".theme-toggle-btn");
+    const currentTheme = localStorage.getItem("theme");
+
+    if (currentTheme === "light") {
+        document.body.classList.add("light-mode");
+        toggleBtns.forEach(btn => btn.textContent = "Dark Mode");
+    } else {
+        toggleBtns.forEach(btn => btn.textContent = "Light Mode");
+    }
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            document.body.classList.toggle("light-mode");
+
+            let theme = "dark";
+            if (document.body.classList.contains("light-mode")) {
+                theme = "light";
+                toggleBtns.forEach(b => b.textContent = "Dark Mode");
+            } else {
+                toggleBtns.forEach(b => b.textContent = "Light Mode");
+            }
+
+            localStorage.setItem("theme", theme);
+        });
+    });
+
+    /* 2. FAQ Accordion */
     const faqQuestions = document.querySelectorAll(".faq-question");
     faqQuestions.forEach(question => {
         question.addEventListener("click", () => {
@@ -6,14 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const icon = question.querySelector("span");
             if (answer.style.display === "none" || answer.style.display === "") {
                 answer.style.display = "block";
-                icon.textContent = "-";
+                if (icon) icon.textContent = "-";
             } else {
                 answer.style.display = "none";
-                icon.textContent = "+";
+                if (icon) icon.textContent = "+";
             }
         });
     });
 
+    /* 3. Contact Us Popup & Validation */
     const contactBtn = document.getElementById("contactUsBtn");
     const popupForm = document.getElementById("popupForm");
     const closePopup = document.getElementById("closePopup");
@@ -33,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.addEventListener("click", (e) => {
-        if (e.target === popupForm) {
+        if (popupForm && e.target === popupForm) {
             popupForm.style.display = "none";
         }
     });
@@ -42,15 +72,15 @@ document.addEventListener("DOMContentLoaded", () => {
     if (form) {
         form.addEventListener("submit", (e) => {
             e.preventDefault();
-            
-            const email = document.getElementById("popEmail").value;
+
+            const email = document.getElementById("popEmail").value.trim();
             const password = document.getElementById("popPassword").value;
             const confirm = document.getElementById("popConfirm").value;
-            
+
             const emailError = document.getElementById("emailError");
             const passwordError = document.getElementById("passwordError");
             const confirmError = document.getElementById("confirmError");
-            
+
             let isValid = true;
 
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -82,38 +112,27 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-});
 
-/* Task 4: Change Background Color */
-const changeBackgroundBtn = document.getElementById("changeBackgroundBtn");
+    /* 4. Change Background Color */
+    const changeBackgroundBtn = document.getElementById("changeBackgroundBtn");
+    const backgroundColors = [
+        "#0b0b0b",
+        "#102a43",
+        "#243b2f",
+        "#3b243a",
+        "#302b1d"
+    ];
+    let backgroundColorIndex = 0;
 
-const backgroundColors = [
-    "#0b0b0b",
-    "#102a43",
-    "#243b2f",
-    "#3b243a",
-    "#302b1d"
-];
+    if (changeBackgroundBtn) {
+        changeBackgroundBtn.addEventListener("click", function () {
+            backgroundColorIndex = (backgroundColorIndex + 1) % backgroundColors.length;
+            document.body.style.backgroundColor = backgroundColors[backgroundColorIndex];
+        });
+    }
 
-let backgroundColorIndex = 0;
-
-if (changeBackgroundBtn) {
-    changeBackgroundBtn.addEventListener("click", function() {
-        backgroundColorIndex++;
-
-        if (backgroundColorIndex >= backgroundColors.length) {
-            backgroundColorIndex = 0;
-        }
-
-        document.body.style.backgroundColor =
-            backgroundColors[backgroundColorIndex];
-    });
-}
-
-/* Page transition animation */
-document.addEventListener("DOMContentLoaded", () => {
+    /* 5. Page Transition Animation */
     const overlay = document.getElementById("pageOverlay");
-
     if (overlay) {
         overlay.classList.remove("active");
     }
@@ -121,7 +140,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("a[href]").forEach(link => {
         link.addEventListener("click", (e) => {
             const href = link.getAttribute("href");
-            if (href && !href.startsWith("#") && !href.startsWith("http") && href !== "#" && link.id !== "contactUsBtn") {
+            if (
+                href &&
+                !href.startsWith("#") &&
+                !href.startsWith("http") &&
+                href !== "#" &&
+                link.id !== "contactUsBtn"
+            ) {
                 e.preventDefault();
                 if (overlay) {
                     overlay.classList.add("active");
@@ -134,40 +159,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-});
 
+    /* 6. Dynamic Greeting (Assignment 5 | Task 1) */
+    const timeGreeting = document.getElementById("timeGreeting");
+    if (timeGreeting) {
+        const hour = new Date().getHours();
+        let greeting;
 
-// Assignment 5 | Task 1: Dynamic greeting using switch
-const timeGreeting = document.getElementById("timeGreeting");
+        switch (true) {
+            case hour < 12:
+                greeting = "Good morning, Stalker!";
+                break;
+            case hour < 18:
+                greeting = "Good afternoon, Stalker!";
+                break;
+            default:
+                greeting = "Good evening, Stalker!";
+        }
 
-function showGreeting() {
-    if (!timeGreeting) return;
-
-    const hour = new Date().getHours();
-    let greeting;
-
-    switch (true) {
-        case hour < 12:
-            greeting = "Good morning, Stalker!";
-            break;
-        case hour < 18:
-            greeting = "Good afternoon, Stalker!";
-            break;
-        default:
-            greeting = "Good evening, Stalker!";
+        timeGreeting.textContent = greeting;
     }
 
-    timeGreeting.textContent = greeting;
-}
-
-showGreeting();
-
-// Assignment 5 | Task 2: Keyboard navigation
-document.addEventListener("DOMContentLoaded", () => {
-    const menuLinks = document.querySelectorAll(
-        ".navbar-nav .nav-link"
-    );
-
+    /* 7. Keyboard Navigation (Assignment 5 | Task 2) */
+    const menuLinks = document.querySelectorAll(".navbar-nav .nav-link");
     menuLinks.forEach((link, index) => {
         link.addEventListener("keydown", (event) => {
             let nextIndex = index;
@@ -177,13 +191,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 case "ArrowRight":
                     nextIndex = (index + 1) % menuLinks.length;
                     break;
-
                 case "ArrowUp":
                 case "ArrowLeft":
-                    nextIndex =
-                        (index - 1 + menuLinks.length) % menuLinks.length;
+                    nextIndex = (index - 1 + menuLinks.length) % menuLinks.length;
                     break;
-
                 default:
                     return;
             }
@@ -194,180 +205,134 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-// Task 0: Setup jQuery
-$(document).ready(function() {
-    console.log("jQuery is ready!");
-
-    // Task 4: Colorful and Stylized Scroll Progress Bar
-    $(window).scroll(function() {
+/* jQuery Features */
+$(document).ready(function () {
+    /* Scroll Progress Bar */
+    $(window).on("scroll", function () {
         let scrollTop = $(window).scrollTop();
         let docHeight = $(document).height();
         let winHeight = $(window).height();
-        let scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
-        $('#scrollProgressBar').css('width', scrollPercent + '%');
+        let scrollable = docHeight - winHeight;
+        let scrollPercent = scrollable > 0 ? (scrollTop / scrollable) * 100 : 0;
+        $("#scrollProgressBar").css("width", scrollPercent + "%");
     });
 
-    // Task 5: Animated Number Counter
-    $('.counter').each(function() {
+    /* Animated Number Counter */
+    $(".counter").each(function () {
         let $this = $(this);
-        let target = $this.data('target');
-        
-        $({ countNum: $this.text() }).animate({
-            countNum: target
-        }, {
-            duration: 2500,
-            easing: 'swing',
-            step: function() {
-                $this.text(Math.floor(this.countNum));
-            },
-            complete: function() {
-                $this.text(this.countNum);
+        let target = $this.data("target");
+
+        $({ countNum: Number($this.text()) || 0 }).animate(
+            { countNum: target },
+            {
+                duration: 2500,
+                easing: "swing",
+                step: function () {
+                    $this.text(Math.floor(this.countNum));
+                },
+                complete: function () {
+                    $this.text(this.countNum);
+                }
             }
-        });
+        );
     });
 
-    // Task 6 & 7: Loading spinner on Submit & Notification System
-    $('.custom-form').on('submit', function(e) {
+    /* Donate Form Loading Spinner & Toast Notification */
+    $(".custom-form").on("submit", function (e) {
         e.preventDefault();
-        
-        let $btn = $(this).find('.submit-btn');
-        let $btnText = $btn.find('.btn-text');
-        let $spinner = $btn.find('.spinner');
-        
-        // Task 6: Spinner
-        $btn.prop('disabled', true);
+
+        let $form = $(this);
+        let $btn = $form.find(".submit-btn");
+        let $btnText = $btn.find(".btn-text");
+        let $spinner = $btn.find(".spinner");
+
+        $btn.prop("disabled", true);
         $btnText.hide();
         $spinner.show();
-        
-        // Server processing simulation (2-second delay)
-        setTimeout(function() {
-            $btn.prop('disabled', false);
+
+        setTimeout(function () {
+            $btn.prop("disabled", false);
             $spinner.hide();
             $btnText.show();
-            
-            $('.custom-form')[0].reset();
-            
-            // Task 7: Notification
-            $('#toastNotification').text("Donated successfully!").fadeIn(400);
-            
-            // Hide notification
-            setTimeout(function() {
-                $('#toastNotification').fadeOut(400);
+
+            $form[0].reset();
+
+            $("#toastNotification").text("Donated successfully!").fadeIn(400);
+
+            setTimeout(function () {
+                $("#toastNotification").fadeOut(400);
             }, 3000);
-            
         }, 2000);
     });
 
-    // Task 8: Copy to Clipboard Button
-    $('.copy-btn').on('click', function() {
+    /* Copy to Clipboard Button */
+    $(".copy-btn").on("click", function () {
         let $btn = $(this);
-        // Extract text
-        let textToCopy = $btn.prev('p').text();
-        
+        let textToCopy = $btn.prev("p").text();
+
         navigator.clipboard.writeText(textToCopy).then(() => {
             let originalText = $btn.html();
-            $btn.html('Copied to clipboard!');
-            $btn.addClass('copied');
+            $btn.html("Copied to clipboard!");
+            $btn.addClass("copied");
 
             setTimeout(() => {
                 $btn.html(originalText);
-                $btn.removeClass('copied');
+                $btn.removeClass("copied");
             }, 2000);
         }).catch(err => {
-            console.error('Copy error: ', err);
+            console.error("Copy error:", err);
         });
     });
 
-   
-    // Assignment 6 | Task 1: Real-time Search and Live Filter
+    /* Search System, Autocomplete & Highlighting (Assignment 6 | Tasks 1, 2, 3) */
+    let searchInput = $("#zoneSearch");
+    let cards = $(".cards-section .card");
+    const SEARCH_KEY = "stalzoneSearchQuery";
 
-    let searchInput = $('#zoneSearch');
-    let cards = $('.cards-section .card');
+    let highlightElements = $(
+        ".cards-section .card h3, " +
+        ".cards-section .card p, " +
+        ".faq-question, " +
+        ".faq-answer p"
+    );
 
-    const SEARCH_KEY = 'stalzoneSearchQuery';
+    highlightElements.each(function () {
+        $(this).data("original-html", $(this).html());
+    });
 
-     // Assignment 6 | Task 2: Autocomplete Search Suggestions
     let suggestions = [];
 
-    cards.each(function() {
-        let title = $(this).find('h3').first().text().trim();
-
-        if (title !== '' && !suggestions.includes(title)) {
+    cards.each(function () {
+        let title = $(this).find("h3").first().text().trim();
+        if (title !== "" && !suggestions.includes(title)) {
             suggestions.push(title);
         }
     });
 
-    $('.faq-question').each(function() {
-        let question = $(this).clone()
-            .children()
-            .remove()
-            .end()
-            .text()
-            .trim();
-
-        if (question !== '' && !suggestions.includes(question)) {
+    $(".faq-question").each(function () {
+        let question = $(this).clone().children().remove().end().text().trim();
+        if (question !== "" && !suggestions.includes(question)) {
             suggestions.push(question);
         }
     });
 
-    function performSearch() {
-        let searchText = searchInput.val().toLowerCase().trim();
-        let visibleCards = 0;
-
-        localStorage.setItem(SEARCH_KEY, searchText);
-
-        cards.each(function() {
-            let cardText = $(this).text().toLowerCase();
-            let match = cardText.includes(searchText);
-
-            $(this).toggleClass('d-none', !match);
-
-            if (match) {
-                visibleCards++;
-            }
-        });
-
-        $('#searchResults').text('Found items: ' + visibleCards);
-
-        if (visibleCards === 0) {
-            $('#noResults').show();
-        } else {
-            $('#noResults').hide();
-        }
-
-        showSuggestions(searchText);
-        highlightSearch(searchText);
-    }
-
-    searchInput.on('input', performSearch);
-
-    // Restore previous search
-    let savedSearch = localStorage.getItem(SEARCH_KEY);
-
-    if (savedSearch !== null && savedSearch !== '') {
-        searchInput.val(savedSearch);
-        performSearch();
-    } else {
-        $('#searchResults').text('Showing all items');
-        $('#noResults').hide();
-    }
-
     function showSuggestions(searchText) {
-        let suggestionBox = $('#searchSuggestions');
+        let suggestionBox = $("#searchSuggestions");
         suggestionBox.empty();
 
-        if (searchText === '') {
+        if (searchText === "") {
             suggestionBox.hide();
             return;
         }
 
-        let matches = suggestions.filter(function(item) {
+        let matches = suggestions.filter(function (item) {
             return item.toLowerCase().includes(searchText);
         });
 
-        matches.slice(0, 5).forEach(function(item) {
-            let button = $('<button>')
-                .addClass('search-suggestion')
+        matches.slice(0, 5).forEach(function (item) {
+            let button = $("<button>")
+                .attr("type", "button")
+                .addClass("search-suggestion")
                 .text(item);
 
             suggestionBox.append(button);
@@ -380,38 +345,10 @@ $(document).ready(function() {
         }
     }
 
-    // Select a suggestion
-    $('#searchSuggestions').on('click', '.search-suggestion', function() {
-        let selectedText = $(this).text();
-        searchInput.val(selectedText);
-        searchInput.trigger('input');
-        $('#searchSuggestions').hide();
-    });
-
-    // Hide suggestions when clicking outside
-    $(document).on('click', function(event) {
-        if (!$(event.target).closest('.search-container').length) {
-            $('#searchSuggestions').hide();
-        }
-    });
-
-    // Assignment 6 | Task 3: Search Highlighting
-    let highlightElements = $(
-        '.cards-section .card h3, ' +
-        '.cards-section .card p, ' +
-        '.faq-question, ' +
-        '.faq-answer p'
-    );
-
-    // Save original HTML
-    highlightElements.each(function() {
-        $(this).data('original-html', $(this).html());
-    });
-
     function highlightTextNodes(element, regex) {
         let nodes = Array.from(element.childNodes);
 
-        nodes.forEach(function(node) {
+        nodes.forEach(function (node) {
             if (node.nodeType === 3) {
                 let text = node.nodeValue;
                 let matches = text.match(regex);
@@ -425,13 +362,11 @@ $(document).ready(function() {
 
                     while ((match = regex.exec(text)) !== null) {
                         fragment.appendChild(
-                            document.createTextNode(
-                                text.substring(lastIndex, match.index)
-                            )
+                            document.createTextNode(text.substring(lastIndex, match.index))
                         );
 
-                        let span = document.createElement('span');
-                        span.className = 'search-highlight';
+                        let span = document.createElement("span");
+                        span.className = "search-highlight";
                         span.textContent = match[0];
 
                         fragment.appendChild(span);
@@ -451,64 +386,80 @@ $(document).ready(function() {
     }
 
     function highlightSearch(searchText) {
-        // Restore original content first
-        highlightElements.each(function() {
-            $(this).html($(this).data('original-html'));
+        highlightElements.each(function () {
+            $(this).html($(this).data("original-html"));
         });
 
-        if (searchText === '') {
+        if (searchText === "") {
             return;
         }
 
-        // Escape special regex characters
-        let escapedText = searchText.replace(
-            /[.*+?^${}()|[\]\\]/g,
-            '\\$&'
-        );
+        let escapedText = searchText.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        let regex = new RegExp(escapedText, "gi");
 
-        let regex = new RegExp(escapedText, 'gi');
-
-        highlightElements.each(function() {
+        highlightElements.each(function () {
             highlightTextNodes(this, regex);
         });
     }
 
-/* Light / Dark Mode Toggle with localStorage */
-document.addEventListener("DOMContentLoaded", () => {
-    const toggleBtns = document.querySelectorAll(".theme-toggle-btn");
-    const currentTheme = localStorage.getItem("theme");
+    function performSearch() {
+        if (searchInput.length === 0) return;
 
-    // Apply saved theme on page load
-    if (currentTheme === "light") {
-        document.body.classList.add("light-mode");
-        toggleBtns.forEach(btn => btn.textContent = "Dark Mode");
-    } else {
-        toggleBtns.forEach(btn => btn.textContent = "Light Mode");
+        let searchText = searchInput.val().toLowerCase().trim();
+        let visibleCards = 0;
+
+        localStorage.setItem(SEARCH_KEY, searchText);
+
+        cards.each(function () {
+            let cardText = $(this).text().toLowerCase();
+            let match = cardText.includes(searchText);
+
+            $(this).toggleClass("d-none", !match);
+
+            if (match) {
+                visibleCards++;
+            }
+        });
+
+        $("#searchResults").text("Found items: " + visibleCards);
+
+        if (visibleCards === 0) {
+            $("#noResults").show();
+        } else {
+            $("#noResults").hide();
+        }
+
+        showSuggestions(searchText);
+        highlightSearch(searchText);
     }
 
-    // Event listener for toggle button
-    toggleBtns.forEach(btn => {
-        btn.addEventListener("click", (e) => {
-            e.preventDefault();
-            document.body.classList.toggle("light-mode");
-            
-            let theme = "dark";
-            if (document.body.classList.contains("light-mode")) {
-                theme = "light";
-                toggleBtns.forEach(b => b.textContent = "Dark Mode");
-            } else {
-                toggleBtns.forEach(b => b.textContent = "Light Mode");
-            }
-            
-            // Save theme state to localStorage
-            localStorage.setItem("theme", theme);
-        });
-    });
-});
+    if (searchInput.length > 0) {
+        searchInput.on("input", performSearch);
 
-/* Public API: Chernobyl Weather via Open-Meteo */
-$(document).ready(function() {
-    // Координаты Чернобыля: 51.2763, 30.2219
+        let savedSearch = localStorage.getItem(SEARCH_KEY);
+        if (savedSearch !== null && savedSearch !== "") {
+            searchInput.val(savedSearch);
+            performSearch();
+        } else {
+            $("#searchResults").text("Showing all items");
+            $("#noResults").hide();
+        }
+    }
+
+    $("#searchSuggestions").on("click", ".search-suggestion", function () {
+        let selectedText = $(this).text();
+        searchInput.val(selectedText);
+        searchInput.trigger("input");
+        $("#searchSuggestions").hide();
+    });
+
+    $(document).on("click", function (event) {
+        if (!$(event.target).closest(".search-container").length) {
+            $("#searchSuggestions").hide();
+        }
+    });
+
+    /* Public API: Chernobyl Weather via Open-Meteo */
     const weatherApiUrl = "https://api.open-meteo.com/v1/forecast?latitude=51.2763&longitude=30.2219&current_weather=true";
 
     if ($("#weatherWidget").length > 0) {
@@ -516,13 +467,10 @@ $(document).ready(function() {
             url: weatherApiUrl,
             method: "GET",
             dataType: "json",
-            success: function(data) {
+            success: function (data) {
                 if (data && data.current_weather) {
-                    const temp = data.current_weather.temperature;
-                    const wind = data.current_weather.windspeed;
-
-                    $("#weatherTemp").text(temp);
-                    $("#weatherWind").text(wind);
+                    $("#weatherTemp").text(data.current_weather.temperature);
+                    $("#weatherWind").text(data.current_weather.windspeed);
 
                     $("#weatherLoading").hide();
                     $("#weatherData").fadeIn();
@@ -530,7 +478,7 @@ $(document).ready(function() {
                     showWeatherError();
                 }
             },
-            error: function() {
+            error: function () {
                 showWeatherError();
             }
         });
